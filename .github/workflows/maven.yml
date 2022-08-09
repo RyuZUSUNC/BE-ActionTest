@@ -68,6 +68,7 @@ jobs:
         asset_content_type: application/zip
 
   linux-build:
+    needs: win-build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -114,6 +115,7 @@ jobs:
           asset_content_type: application/zip
 
   mac-build:
+    needs: win-build
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
