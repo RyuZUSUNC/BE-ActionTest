@@ -4,8 +4,8 @@
 name: Java CI with Maven
 
 on:
-  issue_comment:
-    types: [created, deleted]
+  release:
+    types: [published]
 
 jobs:
   build:
