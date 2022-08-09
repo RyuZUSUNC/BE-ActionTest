@@ -4,8 +4,9 @@
 name: Java CI with Maven
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+    - 'v*'
 
 jobs:
   build:
