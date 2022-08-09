@@ -28,4 +28,4 @@ jobs:
       id: get_version
       run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
     - name: test
-      id: echo steps.get_version.outputs.VERSION
+      run: echo steps.get_version.outputs.VERSION
