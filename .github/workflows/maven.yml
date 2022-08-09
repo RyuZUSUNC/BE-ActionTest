@@ -24,7 +24,8 @@ jobs:
       run: ls
     - name: cd in jpackage dir
       run: cd jpackage
-    - name: jpackage file
-      run: echo ${{ inputs.tags }}
-      
-    
+    - name: Get version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+    - name: test
+      id: echo steps.get_version.outputs.VERSION
