@@ -22,4 +22,9 @@ jobs:
       run: mvn javafx:jlink --file pom.xml
     - name: Show File Dir
       run: ls
+    - name: cd in jpackage dir
+      run: cd jpackage
+    - name: jpackage file
+      run: echo ${{ inputs.tags }}
+      
     
