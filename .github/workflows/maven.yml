@@ -34,10 +34,10 @@ jobs:
       run: ls target
 
     - name: Add new sec file
-      run: xcopy .\conf\java.security ..\target\BE-BerylEnigma\runtime\conf\security\ /y
+      run: cd jpackage && xcopy .\conf\java.security ..\target\BE-BerylEnigma\runtime\conf\security\ /y
 
     - name: Add ext jar
-      run: xcopy .\ext ..\target\BE-BerylEnigma\runtime\ext\
+      run: cd jpackage && xcopy .\ext ..\target\BE-BerylEnigma\runtime\ext\
 
     - name: Download 7z
       run: powershell -c "invoke-webrequest -uri https://github.com/RyuZUSUNC/Archive/raw/main/ArchiveUtils/7z.exe -outfile 7z.exe"
