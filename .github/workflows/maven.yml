@@ -11,10 +11,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-      steps:
-      - name: Show File Dir
-        run: ls
-      - name: cd in jpackage dir
-        run: cd jpackage
-      - name: test
-        run: echo ${{ github.ref }}
+    steps:
+    - name: Show File Dir
+      run: ls
+    - name: cd in jpackage dir
+      run: cd jpackage
+    - name: test
+      run: echo ${{ github.ref }}
