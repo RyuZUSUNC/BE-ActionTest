@@ -103,7 +103,7 @@ jobs:
         run: cd jpackage && cp -rf ./ext ../target/BE-BerylEnigma/lib/runtime/ext
 
       - name: Zip the Build
-        run: zip -r BE-BerylEnigma-linux.zip target/BE-BerylEnigma
+        run: cd target && zip -r ../BE-BerylEnigma-linux.zip BE-BerylEnigma
 
       - name: Show file dir
         run: ls
@@ -150,7 +150,7 @@ jobs:
         run: cd jpackage && cp -rf ./ext ../target/BE-BerylEnigma.app/Contents/runtime/Contents/Home/ext
 
       - name: Zip the Build
-        run: zip -r BE-BerylEnigma-mac.zip target/BE-BerylEnigma.app
+        run: cd target && zip -r ../BE-BerylEnigma-mac.zip BE-BerylEnigma.app
 
       - name: Show file dir
         run: ls
