@@ -25,17 +25,5 @@ jobs:
       run: ls
     - name: cd in jpackage dir
       run: cd jpackage
-    - name: Get version
-      id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
     - name: test
-      run: echo ${{ steps.get_version.outputs.VERSION }}
-    - name: Create Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ steps.get_version.outputs.VERSION }}
-        release_name: ${{ steps.get_version.outputs.VERSION }}
-        draft: false
-        prerelease: false
+      run: echo ${{ github.ref }}
