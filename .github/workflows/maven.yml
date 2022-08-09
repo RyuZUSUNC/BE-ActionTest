@@ -9,27 +9,63 @@ on:
     - "**"
 
 jobs:
-  build:
+  linux-build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+
     - name: Jlink with Maven
       run: mvn javafx:jlink --file pom.xml
+
     - name: Show file dir
       run: ls
+
     - name: Jpackage
       run: cd jpackage && jpackage -n BE-BerylEnigma --app-version ${{ github.ref }} -m "beryenigma/ffffffff0x.beryenigma.Main" --runtime-image ../target/beryenigma --dest ../target/ --java-options "-Djava.class.path=../lib/runtime/ext/bcprov-jdk18on-171.jar --add-opens=java.base/java.lang.reflect=com.jfoenix --add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix --add-exports=javafx.base/com.sun.javafx.binding=com.jfoenix --add-exports=javafx.base/com.sun.javafx.event=com.jfoenix --add-exports=javafx.graphics/com.sun.javafx.stage=com.jfoenix --add-exports=javafx.graphics/com.sun.javafx.scene=com.jfoenix --add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix --add-exports=javafx.controls/com.sun.javafx.scene.control=com.jfoenix" --icon ./ico/BerylEnigma.png --type app-image --description "BerylEnigma" --vendor "RyuZU,ffffffff0x" --copyright "Copyright 2022 ffffffff0x,MIT License"
+
     - name: Show target dir
       run: ls target
-    - name: del sec file
-      run: rm -rf target/BE-BerylEnigma/lib/runtime/conf/security/java.security
-    - name: add new sec file
-      run: cp -rf jpackage/conf/java.security target/BE-BerylEnigma/lib/runtime/conf/security/java.security
-    - name: add ext jar
-      run: cp -rf jpackage/ext target/BE-BerylEnigma/lib/runtime/ext
+
+    - name: Add new sec file
+      run: xcopy .\conf\java.security ..\target\BE-BerylEnigma\runtime\conf\security\ /y
+
+    - name: Add ext jar
+      run: xcopy .\ext ..\target\BE-BerylEnigma\runtime\ext\
+
+    - name: Download 7z
+      run: powershell -c "invoke-webrequest -uri https://github.com/RyuZUSUNC/Archive/raw/main/ArchiveUtils/7z.exe -outfile 7z.exe"
+
+    - name: Package exe
+      run: 7z.exe a BE-BerylEnigma-win.zip .\target\BE-BerylEnigma
+
+    - name: Show file dir
+      run: ls
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: TODO New Release.
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./BE-BerylEnigma-win.zip
+        asset_name: BE-BerylEnigma-win.zip
+        asset_content_type: application/zip
