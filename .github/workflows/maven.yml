@@ -6,7 +6,7 @@ name: Java CI with Maven
 on:
   push:
     tags:
-    - "v*"
+    - "*.*"
 
 jobs:
   build:
@@ -21,9 +21,11 @@ jobs:
         cache: maven
     - name: Jlink with Maven
       run: mvn javafx:jlink --file pom.xml
-    - name: Show File Dir
+    - name: Show file dir
       run: ls
     - name: cd in jpackage dir
       run: cd jpackage
-    - name: test
-      run: echo ${{ github.ref }}
+    - name: Jpackage
+      run: jpackage -n BE-BerylEnigma --app-version ${{ github.ref }} -m "beryenigma/ffffffff0x.beryenigma.Main" --runtime-image ../target/beryenigma --dest ../target/ --java-options "-Djava.class.path=../lib/runtime/ext/bcprov-jdk18on-171.jar --add-opens=java.base/java.lang.reflect=com.jfoenix --add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix --add-exports=javafx.base/com.sun.javafx.binding=com.jfoenix --add-exports=javafx.base/com.sun.javafx.event=com.jfoenix --add-exports=javafx.graphics/com.sun.javafx.stage=com.jfoenix --add-exports=javafx.graphics/com.sun.javafx.scene=com.jfoenix --add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix --add-exports=javafx.controls/com.sun.javafx.scene.control=com.jfoenix" --icon ./ico/BerylEnigma.png --type app-image --description "BerylEnigma" --vendor "RyuZU,ffffffff0x" --copyright "Copyright 2022 ffffffff0x,MIT License"
+    - name: Show target dir
+      run: ls ../target
